@@ -14,6 +14,7 @@
         <a href="index.php?controller=auth&action=register">Inscription</a>
         <a href="index.php?controller=auth&action=login">Connexion</a>
         <a href="index.php?controller=user&action=profile">Profil</a>
+        <a href="index.php?controller=card&action=stats">Statistiques</a>
     </nav>
 </header>
 <main style="padding: 20px;">

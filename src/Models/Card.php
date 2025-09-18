@@ -79,4 +79,5 @@ public static function updatePriceAndUrl(int $id, float $price, string $url): vo
     ]);
 }
 
+
 }

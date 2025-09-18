@@ -124,4 +124,76 @@ public function removeFromCollection()
     exit;
 }
 
+public function stats()
+{
+    if (!isset($_SESSION['user'])) {
+        header('Location: index.php?controller=auth&action=login');
+        exit;
+    }
+
+    $userId = $_SESSION['user']['id'];
+
+    // Récupérer la collection de l’utilisateur
+    $cards = \OnePieceTCGCollect\src\Models\UserCard::getUserCollection($userId);
+
+    // Charger les totaux par extension
+    $extensionTotals = require __DIR__ . '/../../config/extensions.php';
+
+    $extensions = [];
+    $totalValue = 0;
+
+    foreach ($cards as $card) {
+        $extension = $card['extension'] ?? 'Inconnue';
+
+        // Initialisation par extension
+        if (!isset($extensions[$extension])) {
+            $extensions[$extension] = [
+                'unique'        => [],
+                'types'         => [],
+                'total_cards'   => $extensionTotals[$extension]['total'] ?? 0,
+                'total_types'   => $extensionTotals[$extension]['types'] ?? [],
+                'normal'        => 0,
+                'parallel'      => 0,
+                'normal_total'  => $extensionTotals[$extension]['normal'] ?? 0,
+                'parallel_total'=> $extensionTotals[$extension]['parallel'] ?? 0,
+            ];
+
+            // Initialisation des types à 0
+            foreach ($extensions[$extension]['total_types'] as $t => $count) {
+                $extensions[$extension]['types'][$t] = 0;
+            }
+        }
+
+        // Cartes uniques (sans doublons)
+        $extensions[$extension]['unique'][$card['id']] = true;
+
+        // Comptage des types
+        $type = $card['type'] ?: 'Autre';
+        if (isset($extensions[$extension]['types'][$type])) {
+            $extensions[$extension]['types'][$type]++;
+        } else {
+            $extensions[$extension]['types'][$type] = 1;
+        }
+
+        // Normal / Parallèle basé sur la colonne version
+        if (!empty($card['version']) && $card['version'] === 'Parallel') {
+            $extensions[$extension]['parallel']++;
+        } else {
+            $extensions[$extension]['normal']++;
+        }
+
+        // Valeur totale
+        if (is_numeric($card['price'])) {
+            $totalValue += $card['price'] * (int)$card['quantity'];
+        }
+    }
+
+    // Affichage
+    ob_start();
+    require __DIR__ . '/../../views/card/stats.php';
+    $content = ob_get_clean();
+
+    require __DIR__ . '/../../views/layout.php';
+}
+
 }
