@@ -1,23 +1,20 @@
 <h2>Mes decks</h2>
 
-<a href="index.php?controller=deck&action=create">
-    <button>+ Créer un nouveau deck</button>
-</a>
+<a href="index.php?controller=deck&action=create">Créer un nouveau deck</a>
 
-<?php if (empty($decks)): ?>
-    <p>Vous n'avez encore créé aucun deck.</p>
-<?php else: ?>
-    <ul>
-        <?php foreach ($decks as $deck): ?>
-            <li>
-                <strong><?= htmlspecialchars($deck['name']) ?></strong>
-                (Leader ID: <?= htmlspecialchars($deck['leader_id']) ?>)
-                - <?= $deck['card_count'] ?>/50 cartes
+<ul>
+<?php foreach ($decks as $deck): ?>
+    <li>
+        <?= htmlspecialchars($deck['name']) ?> 
+        (<?= $deck['card_count'] ?> cartes)
+        
 
-                <a href="index.php?controller=deck&action=edit&id=<?= $deck['id'] ?>">
-                    <button>Voir / Modifier</button>
-                </a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
+        <a href="index.php?controller=deck&action=edit&id=<?= $deck['id'] ?>">✏️ Modifier</a>
+
+        <form method="POST" action="index.php?controller=deck&action=delete" style="display:inline;">
+            <input type="hidden" name="deck_id" value="<?= $deck['id'] ?>">
+            <button type="submit" onclick="return confirm('Supprimer ce deck ?')">🗑️ Supprimer</button>
+        </form>
+    </li>
+<?php endforeach; ?>
+</ul>

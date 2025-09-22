@@ -98,13 +98,27 @@ class Card
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getByColor(string $color): array
-    {
-        $db = Database::getInstance();
-        $stmt = $db->prepare("SELECT * FROM cards WHERE color = :color ORDER BY number ASC");
-        $stmt->execute([':color' => $color]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    public static function getByColors(array $colors): array
+{
+    $db = Database::getInstance();
+
+    // Construction dynamique de la clause IN
+    $in  = str_repeat('?,', count($colors) - 1) . '?';
+    $sql = "SELECT * FROM cards WHERE color IN ($in) AND type != 'Leader'";
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute($colors);
+
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
+public static function getByColorWithoutLeaders(string $color): array
+{
+    $db = Database::getInstance();
+    $stmt = $db->prepare("SELECT * FROM cards WHERE color = :color AND type != 'Leader'");
+    $stmt->execute([':color' => $color]);
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
 
     public static function search(string $keyword): array
     {

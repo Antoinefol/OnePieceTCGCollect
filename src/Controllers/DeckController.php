@@ -8,7 +8,7 @@ class DeckController
 {
     public function create()
     {
-       
+        
         if (!isset($_SESSION['user'])) {
             header("Location: index.php?controller=auth&action=login");
             exit;
@@ -16,8 +16,14 @@ class DeckController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_SESSION['user']['id'];
-            $name = $_POST['name'];
-            $leaderId = $_POST['leader_id'];
+            $name = trim($_POST['name'] ?? '');
+            $leaderId = $_POST['leader_id'] ?? '';
+
+            if ($name === '' || $leaderId === '') {
+                $_SESSION['flash'] = "Nom ou leader manquant.";
+                header("Location: index.php?controller=deck&action=create");
+                exit;
+            }
 
             $deckId = Deck::create($userId, $name, $leaderId);
 
@@ -36,18 +42,37 @@ class DeckController
 
     public function edit()
     {
-       
+      
         if (!isset($_SESSION['user'])) {
             header("Location: index.php?controller=auth&action=login");
             exit;
         }
 
-        $deckId = $_GET['id'];
+        $deckId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
         $deck = Deck::getDeck($deckId);
-        $leader = Card::getById($deck['leader_id']); // On récupère la couleur du leader
+        if (!$deck) {
+            $_SESSION['flash'] = "Deck introuvable.";
+            header("Location: index.php?controller=deck&action=list");
+            exit;
+        }
 
-        // Liste des cartes filtrées par couleur du leader
-        $cards = Card::getByColor($leader['color']);
+        // verification propriétaire
+        if ($deck['user_id'] != $_SESSION['user']['id']) {
+            $_SESSION['flash'] = "Accès refusé.";
+            header("Location: index.php?controller=deck&action=list");
+            exit;
+        }
+
+        $leader = Card::getById($deck['leader_id']);
+        if (!$leader) {
+            $_SESSION['flash'] = "Leader introuvable.";
+            header("Location: index.php?controller=deck&action=list");
+            exit;
+        }
+
+        // Gestion multi-couleurs (ex: "Purple/Green")
+        $colors = array_map('trim', explode('/', $leader['color'] ?? ''));
+        $cards = Card::getByColors($colors); // assure-toi que cette méthode existe
 
         ob_start();
         require __DIR__ . '/../../views/deck/edit.php';
@@ -58,76 +83,152 @@ class DeckController
 
     public function addCard()
     {
-        
+       
         if (!isset($_SESSION['user'])) {
-            header("Location: index.php?controller=auth&action=login");
+            header('Location: index.php?controller=auth&action=login');
             exit;
         }
 
-        $deckId = $_POST['deck_id'];
-        $cardId = $_POST['card_id'];
-        $quantity = (int) $_POST['quantity'];
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?controller=deck&action=list');
+            exit;
+        }
+
+        $deckId = isset($_POST['deck_id']) ? (int)$_POST['deck_id'] : 0;
+        $cardId = isset($_POST['card_id']) ? (string)$_POST['card_id'] : '';
+        $quantity = isset($_POST['quantity']) ? max(1, (int)$_POST['quantity']) : 1;
 
         $deck = Deck::getDeck($deckId);
+        if (!$deck) {
+            $_SESSION['flash'] = "Deck introuvable.";
+            header("Location: index.php?controller=deck&action=list");
+            exit;
+        }
+
+        // sécurité : vérifier que l'utilisateur est le propriétaire
+        if ($deck['user_id'] != $_SESSION['user']['id']) {
+            $_SESSION['flash'] = "Accès refusé.";
+            header("Location: index.php?controller=deck&action=list");
+            exit;
+        }
+
         $leader = Card::getById($deck['leader_id']);
         $card = Card::getById($cardId);
 
-        // Vérif couleur
-        if ($card['color'] !== $leader['color']) {
-            $_SESSION['flash'] = "Erreur : La carte n’a pas la même couleur que le leader.";
+        if (!$leader || !$card) {
+            $_SESSION['flash'] = "Carte ou leader introuvable.";
             header("Location: index.php?controller=deck&action=edit&id=$deckId");
             exit;
         }
 
-        // Vérif limite de 50 cartes
-        $currentCount = Deck::countCards($deckId);
-        if ($currentCount + $quantity > 50) {
-            $_SESSION['flash'] = "Erreur : Un deck doit contenir exactement 50 cartes (hors Leader).";
+        // Empêcher l'ajout d'un Leader via POST
+        if (($card['type'] ?? '') === 'Leader') {
+            $_SESSION['flash'] = "Erreur : Impossible d’ajouter un Leader dans le deck.";
             header("Location: index.php?controller=deck&action=edit&id=$deckId");
             exit;
         }
 
-        Deck::addCard($deckId, $cardId, $quantity);
+        // Vérif couleur(s) du leader (multi-couleurs possible)
+        $leaderColors = array_map('trim', explode('/', $leader['color'] ?? ''));
+        if (!in_array($card['color'], $leaderColors, true)) {
+            $_SESSION['flash'] = "Erreur : La carte doit être de la même couleur que le leader.";
+            header("Location: index.php?controller=deck&action=edit&id=$deckId");
+            exit;
+        }
+
+        // Utilise la méthode addCard du modèle (qui gère règles 4 copies / 50 cartes)
+        $res = Deck::addCard($deckId, $cardId, $quantity);
+
+        if (!$res['ok']) {
+            $_SESSION['flash'] = $res['msg'] ?? "Impossible d'ajouter la carte.";
+        } else {
+            if (($res['added'] ?? 0) < ($res['requested'] ?? $quantity)) {
+                $_SESSION['flash'] = "Ajout partiel : ajouté {$res['added']} (sur {$res['requested']}).";
+            } else {
+                $_SESSION['flash'] = "Carte ajoutée ({$res['added']}).";
+            }
+        }
 
         header("Location: index.php?controller=deck&action=edit&id=$deckId");
         exit;
     }
 
     public function removeCard()
-{
-    session_start();
-    if (!isset($_SESSION['user'])) {
-        header('Location: index.php?controller=auth&action=login');
+    {
+      
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?controller=auth&action=login');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: index.php?controller=deck&action=list');
+            exit;
+        }
+
+        $deckId = isset($_POST['deck_id']) ? (int)$_POST['deck_id'] : 0;
+        $cardId = isset($_POST['card_id']) ? (string)$_POST['card_id'] : '';
+        $quantity = isset($_POST['quantity']) ? max(1, (int)$_POST['quantity']) : 1;
+
+        $deck = Deck::getDeck($deckId);
+        if (!$deck) {
+            $_SESSION['flash'] = "Deck introuvable.";
+            header("Location: index.php?controller=deck&action=list");
+            exit;
+        }
+
+        // sécurité : vérifier que l'utilisateur est le propriétaire
+        if ($deck['user_id'] != $_SESSION['user']['id']) {
+            $_SESSION['flash'] = "Accès refusé.";
+            header("Location: index.php?controller=deck&action=list");
+            exit;
+        }
+
+        $res = Deck::removeCard($deckId, $cardId, $quantity);
+        if (!$res['ok']) {
+            $_SESSION['flash'] = $res['msg'] ?? "Impossible de retirer la carte.";
+        } else {
+            $_SESSION['flash'] = "Carte retirée. Quantité restante : " . ($res['newQty'] ?? 0);
+        }
+
+        header("Location: index.php?controller=deck&action=edit&id=$deckId");
         exit;
     }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $deckId = (int)$_POST['deck_id'];
-        $cardId = (int)$_POST['card_id'];
-
-        \OnePieceTCGCollect\src\Models\Deck::removeCard($deckId, $cardId, 1);
-    }
-
-    header("Location: index.php?controller=deck&action=edit&id=$deckId");
-    exit;
-}
 
     public function list()
-{
-   
-    if (!isset($_SESSION['user'])) {
-        header("Location: index.php?controller=auth&action=login");
-        exit;
+    {
+       
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?controller=auth&action=login");
+            exit;
+        }
+
+        $userId = $_SESSION['user']['id'];
+        $decks = Deck::getByUserWithCards($userId);
+
+        ob_start();
+        require __DIR__ . '/../../views/deck/list.php';
+        $content = ob_get_clean();
+
+        require __DIR__ . '/../../views/layout.php';
     }
 
-    $userId = $_SESSION['user']['id'];
-    $decks = \OnePieceTCGCollect\src\Models\Deck::getByUserWithCards($userId);
+    public function delete()
+    {
+       
+        if (!isset($_SESSION['user'])) {
+            header("Location: index.php?controller=auth&action=login");
+            exit;
+        }
 
-    ob_start();
-    require __DIR__ . '/../../views/deck/list.php';
-    $content = ob_get_clean();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $deckId = (int) $_POST['deck_id'];
+            $userId = $_SESSION['user']['id'];
 
-    require __DIR__ . '/../../views/layout.php';
-}
+            \OnePieceTCGCollect\src\Models\Deck::delete($deckId, $userId);
+        }
 
+        header("Location: index.php?controller=deck&action=list");
+        exit;
+    }
 }
