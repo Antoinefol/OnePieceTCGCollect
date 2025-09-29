@@ -45,6 +45,7 @@
 
 <?php foreach ($cards as $card): ?>
     <li>
+        <img src="../img/<?php echo htmlspecialchars($card['number']) . '-' . htmlspecialchars($card['version']); ?>.png" alt="">
         <?= htmlspecialchars($card['number']) ?> - 
         <?= htmlspecialchars($card['name']) ?> - 
         <?= htmlspecialchars($card['rarity']) ?> -  

@@ -72,7 +72,7 @@ class DeckController
 
         // Gestion multi-couleurs (ex: "Purple/Green")
         $colors = array_map('trim', explode('/', $leader['color'] ?? ''));
-        $cards = Card::getByColors($colors); // assure-toi que cette méthode existe
+        $cards = Card::getByColors($colors); 
 
         ob_start();
         require __DIR__ . '/../../views/deck/edit.php';
