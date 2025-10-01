@@ -1,5 +1,6 @@
 <h2>Profil de <?= htmlspecialchars($user['username']) ?></h2>
-
+<a href="index.php?controller=card&action=stats">Statistiques</a>
+        <a href="index.php?controller=deck&action=list">Mes Decks</a>
 <h3>Ma collection de cartes</h3>
 <pre><?php var_dump($cards); ?></pre>
 <?php if (empty($cards)) : ?>

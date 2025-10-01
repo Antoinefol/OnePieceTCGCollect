@@ -1,4 +1,10 @@
+header{
+   display: flex;
+   flex-direction: row;
+}
+
+
+
 img{
-   
    max-height: 300px;
 }
