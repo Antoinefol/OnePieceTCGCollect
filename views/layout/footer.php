@@ -1,5 +1,5 @@
 </main>
-<footer style="text-align: center; padding: 10px; background: #eee;">
+<footer >
     <small>&copy; 2025 One Piece TCG Collect</small>
 </footer>
 </body>

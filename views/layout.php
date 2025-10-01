@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-
 <?php include __DIR__ . '/layout/header.php'; ?>
    <main> 
     <?= $content ?>
 </main>
     <?php include __DIR__ . '/layout/footer.php'; ?>
-
+<script src="./js/script.js"></script>
 </body>
 </html>
