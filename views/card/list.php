@@ -44,9 +44,14 @@
 
 
 <?php foreach ($cards as $card): ?>
-    <li>
-        <img src="../img/cards/<?php echo htmlspecialchars($card['number']) . '-' . htmlspecialchars($card['version']); ?>.png" alt="">
-        <?= htmlspecialchars($card['number']) ?> - 
+    
+    <div class="flip-card">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img src="../img/cards/<?php echo htmlspecialchars($card['number']) . '-' . htmlspecialchars($card['version']); ?>.png" alt="">
+        </div>
+        <div class="flip-card-back">
+            <?= htmlspecialchars($card['number']) ?> - 
         <?= htmlspecialchars($card['name']) ?> - 
         <?= htmlspecialchars($card['rarity']) ?> -  
         <?= htmlspecialchars($card['type']) ?> - 
@@ -70,6 +75,15 @@
                 <input type="hidden" name="card_id" value="<?= htmlspecialchars($card['id']) ?>">
                 <button type="submit">Ajouter à ma collection</button>
             </form>
-        <?php endif; ?>
-    </li>
+            <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+    
 <?php endforeach; ?>
+
+
+
+
+

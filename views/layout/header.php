@@ -1,5 +1,5 @@
 <header>
-    <img src="../img/assets/logo.png" alt="logo" class="logo">
+    <img class="logo" src="../img/assets/logo.png" alt="logo" class="logo">
 
     <button class="burger" id="burger">
         ☰

@@ -15,32 +15,64 @@ header {
   
 }
 
+.logo{
+  max-width: 200px;
+}
+
 /* Menu mobile */
 nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: none;        /* caché par défaut */
+  position: fixed;
+  top: -100%;
+  right:0;
+  
+  display: flex;        
   flex-direction: column;
-  justify-content: space-around;
-  gap: 12px;
+  font-size: 2rem;
+  gap: 56px;
   width: 100%;
   height: 100vh;
+  transition: top 0.7s ease-in-out;
   background: #02090d;
   z-index: 9;
 }
 
-
+nav>a:first-child{
+  margin-top: 30%;
+}
 nav>a {
+  opacity: 0;
    text-decoration: none;
    color: white;
-   padding: 0 0 8px 24px;
-   
+   padding: 0 0 0 10%;transition: opacity 1s ease-in-out;
 }
+
+
 
 /* Affiche le menu quand burger cliqué */
 nav.show {
-  display: flex;
+  top: 0;
+  opacity: 1;
+}
+
+nav.show>a {
+  top: 0;
+  opacity: 1;
+}
+
+nav.show>a:nth-child(1) {
+  transition-delay: 0.1s;
+}
+nav.show>a:nth-child(2) {
+  transition-delay: 0.25s;
+}
+nav.show>a:nth-child(3) {
+  transition-delay: 0.4s;
+}
+nav.show>a:nth-child(4) {
+  transition-delay: 0.55s;
+}
+nav.show>a:nth-child(5) {
+  transition-delay: 0.7s;
 }
 
 /* Bouton burger visible par défaut */
@@ -52,9 +84,7 @@ nav.show {
   z-index: 10;
 }
 
-img{
-   max-height: 200px;
-}
+
 
 .centeredWrap{
   display: flex;
@@ -67,27 +97,20 @@ img{
 .register {
   width: 70%;
   max-width: 600px;
-  height: 20vh;
- 
+  height: 40%;
   background: rgba(2, 9, 13, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-
- 
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-
-  
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.05),
     inset 0 -1px 0 rgba(255, 255, 255, 0.03),
     inset 0 0 20px 10px rgba(255, 255, 255, 0.05);
-  
   background-image: linear-gradient(135deg, rgba(2,9,13,0.8), rgba(2,9,13,0.6) 70%);
   position: relative;
   overflow: hidden;
-
   padding: 16px 40px 16px 40px;
 }
 
@@ -125,10 +148,76 @@ img{
   margin: 48px 0 0 0;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 40px;
 }
 
 form>label{
   display: flex;
   flex-direction: column;
+}
+
+form>label>input{
+  margin-top: 10px;
+  border: 1px solid #9ea3a8;
+  background-color: #686b6f;
+}
+
+.submitWrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submitWrap>button{
+  border: none;
+ background-color: #686b6f;
+ width: 100px;
+ padding: 8px;
+}
+
+/* Card List Style */
+
+.flip-card {
+  background-color: transparent;
+  height: 300px;
+  width: 200px;
+  perspective: 1000px;
+  color: white;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+}
+
+.flip-card-front {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  background-color: #171717;
+}
+
+.flip-card-back {
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+  background-color: #171717;
+  transform: rotateY(180deg);
 }
