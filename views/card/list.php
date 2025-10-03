@@ -42,47 +42,45 @@
     <button type="submit">Filtrer</button>
 </form>
 
-
-<?php foreach ($cards as $card): ?>
+<div class="cardWrap">
+    <?php foreach ($cards as $card): ?>
     
     <div class="flip-card">
-    <div class="flip-card-inner">
-        <div class="flip-card-front">
-            <img src="../img/cards/<?php echo htmlspecialchars($card['number']) . '-' . htmlspecialchars($card['version']); ?>.png" alt="">
-        </div>
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <img src="./images/cards/<?php echo htmlspecialchars($card['number']) . '-' . htmlspecialchars($card['version']); ?>.png" alt="">
+            </div>
         <div class="flip-card-back">
             <?= htmlspecialchars($card['number']) ?> - 
-        <?= htmlspecialchars($card['name']) ?> - 
-        <?= htmlspecialchars($card['rarity']) ?> -  
-        <?= htmlspecialchars($card['type']) ?> - 
-        <?= htmlspecialchars($card['life']) ?> - 
-        <?= htmlspecialchars($card['cost']) ?> - 
-        <?= htmlspecialchars($card['color']) ?> - 
-        <?= htmlspecialchars($card['extension']) ?> - 
-        <?= htmlspecialchars($card['version']) ?> - 
+            <?= htmlspecialchars($card['name']) ?> - 
+            <?= htmlspecialchars($card['rarity']) ?> -  
+            <?= htmlspecialchars($card['type']) ?> - 
+            <?= htmlspecialchars($card['life']) ?> - 
+            <?= htmlspecialchars($card['cost']) ?> - 
+            <?= htmlspecialchars($card['color']) ?> - 
+            <?= htmlspecialchars($card['extension']) ?> - 
+            <?= htmlspecialchars($card['version']) ?> - 
 
-        <?php if (!empty($card['price'])): ?>
-            Prix : <?= htmlspecialchars($card['price']) ?> $
-            <?php if (!empty($card['url'])): ?>
-                - <a href="<?= htmlspecialchars($card['url']) ?>" target="_blank">Voir l'annonce</a>
+            <?php if (!empty($card['price'])): ?>
+                Prix : <?= htmlspecialchars($card['price']) ?> $
+                    <?php if (!empty($card['url'])): ?>
+                        - <a href="<?= htmlspecialchars($card['url']) ?>" target="_blank">Voir l'annonce</a>
+                    <?php endif; ?>
+            <?php else: ?>
+                Prix : Non disponible
             <?php endif; ?>
-        <?php else: ?>
-            Prix : Non disponible
-        <?php endif; ?>
 
-        <?php if (isset($_SESSION['user'])): ?>
-            <form method="POST" action="index.php?controller=card&action=addToCollection" style="display:inline;">
-                <input type="hidden" name="card_id" value="<?= htmlspecialchars($card['id']) ?>">
-                <button type="submit">Ajouter à ma collection</button>
-            </form>
+            <?php if (isset($_SESSION['user'])): ?>
+                <form method="POST" action="index.php?controller=card&action=addToCollection" style="display:inline;">
+                    <input type="hidden" name="card_id" value="<?= htmlspecialchars($card['id']) ?>">
+                    <button type="submit">Ajouter à ma collection</button>
+                </form>
             <?php endif; ?>
             </div>
         </div>
     </div>
+    <?php endforeach; ?>
 </div>
-    
-<?php endforeach; ?>
-
 
 
 

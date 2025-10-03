@@ -221,3 +221,11 @@ form>label>input{
   background-color: #171717;
   transform: rotateY(180deg);
 }
+
+.cardWrap{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
