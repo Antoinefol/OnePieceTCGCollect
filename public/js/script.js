@@ -13,3 +13,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const cards = document.querySelectorAll('.flip-card');
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleButton = document.getElementById('toggleFilters');
+  const moreFilters = document.querySelector('.moreFilters');
+
+  toggleButton.addEventListener('click', () => {
+    moreFilters.classList.toggle('more');
+    toggleButton.textContent = moreFilters.classList.contains('more')
+      ? '− Moins de filtres'
+      : '+ Plus de filtres';
+  });
+});
