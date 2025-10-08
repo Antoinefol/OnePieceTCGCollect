@@ -63,7 +63,7 @@
     <div class="flip-card">
         <div class="flip-card-inner">
             <div class="flip-card-front">
-                <img src="./images/cards/<?php echo htmlspecialchars($card['number']) . '-' . htmlspecialchars($card['version']); ?>.png" alt="">
+                <img src="./images/cards/<?php echo htmlspecialchars($card['number']) . '-' . htmlspecialchars($card['version']); ?>.png" alt="carte <?php echo htmlspecialchars($card['number']); ?>">
             </div>
         <div class="flip-card-back">
             <h3><?= htmlspecialchars($card['number']) ?>

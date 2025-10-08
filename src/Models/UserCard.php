@@ -10,7 +10,7 @@ class UserCard
     $db = Database::getInstance();
 
     $stmt = $db->prepare("
-        SELECT c.id, c.name, c.type, c.color,c.price, c.Life, c.extension,c.version ,  c.rarity, uc.quantity
+        SELECT c.id, c.name, c.type, c.color,c.price, c.Life, c.extension,c.version ,c.number,  c.rarity, uc.quantity
         FROM user_cards uc
         JOIN cards c ON uc.card_id = c.id
         WHERE uc.user_id = ?

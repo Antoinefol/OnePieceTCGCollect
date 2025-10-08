@@ -89,56 +89,21 @@ nav.show>a:nth-child(5) {
   align-items: center;
 }
 
+.column{
+  flex-direction: column;
+}
 /* rgister et login */
 
 .register {
   width: 70%;
   max-width: 600px;
   height: 40%;
-  background: rgba(2, 9, 13, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.7);
+-webkit-box-shadow: 0px 0px 50px 20px rgba(0,0,0,0.2); 
+box-shadow: 0px 0px 50px 20px rgba(0,0,0,0.2);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.03),
-    inset 0 0 20px 10px rgba(255, 255, 255, 0.05);
-  background-image: linear-gradient(135deg, rgba(2,9,13,0.8), rgba(2,9,13,0.6) 70%);
   position: relative;
-  overflow: hidden;
   padding: 16px 40px 16px 40px;
-}
-
-.register::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.03),
-    transparent
-  );
-}
-
-.register::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.03),
-    transparent,
-    rgba(255, 255, 255, 0.05),
-  );
 }
 
 .register>form{
@@ -155,21 +120,17 @@ form>label{
 
 form>label>input{
   margin-top: 10px;
-  border: 1px solid #9ea3a8;
-  background-color: #686b6f;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 0;
+  background-color: #ffffff;
+  border: 1px solid #444;
 }
 
 .submitWrap{
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.submitWrap>button{
-  border: none;
- background-color: #686b6f;
- width: 100px;
- padding: 8px;
 }
 
 /* Card List Style */
@@ -252,7 +213,7 @@ form>label>input{
   padding: 24px;
 }
 
-/* 🌙 Thème global */
+/*filter*/
 .filterForm {
   background-color:#fffefe;
   
@@ -266,14 +227,14 @@ form>label>input{
   font-family: 'Poppins', sans-serif;
 }
 
-/* 🧭 Ligne principale (mobile = colonne) */
+
 .mainFilters {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 }
 
-/* 🟡 Bouton principal */
+
 #toggleFilters,
 .applyFilters, button {
   background-color:#ffbf2b;
@@ -307,7 +268,7 @@ form>label>input{
   background: #fff;
   color: #222;
   border-bottom: 1px solid #444;
-  
+  border-radius: 8px;
   padding: 0.6rem 0;
   font-size: 1rem;
   transition: all 0.2s ease;
@@ -349,3 +310,75 @@ form>label>input{
   width: 100%;
 }
 
+/*card collection*/
+.cards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  padding: 16px 8px;
+  margin: 0 40px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0px 0px 50px 17px rgba(0,0,0,0.21); 
+box-shadow: 0px 0px 50px 17px rgba(0,0,0,0.21);
+  background-image: url('../images/assets/5-dots.webp');
+  background-repeat: repeat;
+}
+
+.card-wrapper {
+  position: relative; 
+  width: 200px;
+  height: 300px;
+}
+
+.sleeve {
+  pointer-events: none;
+  position: absolute;
+  top: -8px;
+  left: -7px;
+   z-index: 5;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  border-left: 2px dashed rgba(255, 255, 255, 0.50);
+  border-right: 2px dashed rgba(255, 255, 255, 0.50);
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.50);
+  border-radius: 0 0 0.2rem 0.2rem;
+  background: rgba(255,255,255,0.08);
+  
+  backdrop-filter: blur(2px);
+}
+
+.collectionFlipCard {
+  
+width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.collectionFlipCardInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.collectionFlipCardFront {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background-color: red;
+  box-shadow: rgba(0,0,0,0.4) 0px 2px 2px,
+              rgba(0,0,0,0.3) 0px 7px 13px -3px,
+              rgba(0,0,0,0.2) 0px -1px 0px inset;
+}
+
+.collectionFlipCardFront>img{
+  width: 100%;
+  height: 100%;
+}
