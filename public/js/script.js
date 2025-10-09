@@ -46,9 +46,8 @@ document.querySelectorAll(".collectionFlipCard").forEach((card) => {
     if (animating) return;
     animating = true;
 
-    // Si une autre carte est ouverte
+    // Si une autre carte est déjà ouverte
     if (activeClone && activeCard && activeCard !== card) {
-      const rectOld = activeCard.getBoundingClientRect();
       const sleeve = activeCard.parentElement.querySelector(".sleeve");
       const sleeveRect = sleeve.getBoundingClientRect();
 
@@ -77,7 +76,7 @@ document.querySelectorAll(".collectionFlipCard").forEach((card) => {
 
     if (activeCard === card) {
       animating = false;
-      return; // ignore clic sur la même carte
+      return;
     }
 
     const rect = card.getBoundingClientRect();
@@ -103,7 +102,7 @@ document.querySelectorAll(".collectionFlipCard").forEach((card) => {
     activeClone = clone;
     activeCard = card;
 
-    // --- Phase 1 : montée ---
+    // Phase 1 : montée
     requestAnimationFrame(() => {
       clone.style.transform = "translate(0, -300px)";
     });
@@ -112,12 +111,13 @@ document.querySelectorAll(".collectionFlipCard").forEach((card) => {
       if (e.propertyName !== "transform") return;
       clone.removeEventListener("transitionend", handleFirstTransition);
 
-      // --- Phase 2 : centrage + zoom ---
-      clone.style.top = "30%";
+      // Phase 2 : centrage + zoom
+      clone.style.top = "40%";
       clone.style.left = "40%";
-      clone.style.transform = "scale(2)";
+      const img = clone.querySelector("img");
+      if (img) img.style.transform = "scale(2)";
 
-      // --- Création info ---
+      // Création du bloc d'informations
       const { id, name, type, color, life, rarity, quantity, price } = card.dataset;
       const info = document.createElement("div");
       info.classList.add("card-info");
@@ -129,45 +129,27 @@ document.querySelectorAll(".collectionFlipCard").forEach((card) => {
         Rareté : ${rarity}<br>
         Quantité : ${quantity}<br>
         Prix : ${price}<br><br>
-        <form method="POST" action="index.php?controller=card&action=removeFromCollection" style="display:inline;">
-            <input type="hidden" name="card_id" value="${id}">
-            <input type="number" name="quantity" min="1" max="${quantity}" value="1" style="width:60px;">
-            <button type="submit">🗑️ Retirer</button>
+        <form method="POST" action="index.php?controller=card&action=removeFromCollection" style="display:block;">
+          <input type="hidden" name="card_id" value="${id}">
+          <input type="number" name="quantity" min="1" max="${quantity}" value="1" style="width:60px;">
+          <button type="submit">🗑️ Retirer</button>
         </form>
       `;
 
-      Object.assign(info.style, {
-        position: "fixed",
-        top: "63%",
-        left: "7%",
-        transform: "translate(150%, -50%)",
-        background: "rgba(0,0,0,0.85)",
-        color: "white",
-        padding: "15px",
-        borderRadius: "10px",
-        maxWidth: "260px",
-        fontFamily: "Poppins, sans-serif",
-        lineHeight: "1.4",
-        boxShadow: "0 4px 15px rgba(0,0,0,0.5)",
-        zIndex: "1000",
-        opacity: "0",
-        transition: "opacity 0.3s ease"
-      });
-
-      document.body.appendChild(info);
-      requestAnimationFrame(() => (info.style.opacity = 1));
+      clone.appendChild(info);
+      info.addEventListener("click", (e) => e.stopPropagation());
+      requestAnimationFrame(() => info.classList.add("visible"));
       activeInfo = info;
 
       animating = false;
 
-      // --- Clic sur clone pour refermer ---
+      // Clic sur clone pour refermer
       clone.addEventListener("click", () => {
         if (activeInfo) activeInfo.remove();
 
         const sleeve = card.parentElement.querySelector(".sleeve");
         const sleeveRect = sleeve.getBoundingClientRect();
 
-        // Animation inversée jusqu’à la sleeve
         clone.style.transform = "scale(1)";
         clone.style.top = sleeveRect.top + "px";
         clone.style.left = sleeveRect.left + "px";
@@ -185,3 +167,4 @@ document.querySelectorAll(".collectionFlipCard").forEach((card) => {
     });
   });
 });
+

@@ -1,5 +1,10 @@
-<h2>Mes decks</h2>
 
+<div class="profileWrap">
+<h2>Mes decks</h2>
+<div>
+<a class="profilebtn" href="index.php?controller=card&action=stats">Statistiques</a>
+<a class="profilebtn" href="index.php?controller=user&action=profile">Profile</a></div>
+</div>
 <a href="index.php?controller=deck&action=create">Créer un nouveau deck</a>
 
 <ul>

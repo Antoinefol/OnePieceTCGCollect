@@ -1,9 +1,13 @@
-<h2>📊 Statistiques de ma collection</h2>
-
-<h3>💰 Valeur totale : <?= number_format($totalValue, 2, ',', ' ') ?> €</h3>
-
+<div class="profileWrap">
+<h2>Statistiques </h2>
+<div>
+<a class="profilebtn" href="index.php?controller=user&action=profile">Profile</a>
+<a class="profilebtn" href="index.php?controller=deck&action=list">Mes Decks</a></div>
+</div>
+<h3>Valeur totale : <?= number_format($totalValue, 2, ',', ' ') ?> €</h3>
+<div class="statGrid">
 <?php foreach ($extensions as $extension => $data): ?>
-    <div style="border:1px solid #ccc; padding:15px; margin-bottom:20px; border-radius:10px;">
+    <div class="statCard">
         <h4><?= htmlspecialchars($extension) ?></h4>
 
         <p>
@@ -15,8 +19,8 @@
         </p>
 
         <p>
-            👉 Normal : <?= $data['normal'] ?> / <?= $data['normal_total'] ?><br>
-            🌟 Parallèle : <?= $data['parallel'] ?> / <?= $data['parallel_total'] ?>
+             Normal : <?= $data['normal'] ?> / <?= $data['normal_total'] ?><br>
+             Parallèle : <?= $data['parallel'] ?> / <?= $data['parallel_total'] ?>
         </p>
 
         <h5>Détail par type :</h5>
@@ -31,3 +35,4 @@
         </ul>
     </div>
 <?php endforeach; ?>
+</div>

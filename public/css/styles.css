@@ -1,6 +1,6 @@
 body{
 background-color: #F1F1F1;
-font-size: 1rem;
+font-size: 1.6rem;
 }
 
 /* Header mobile par défaut */
@@ -82,6 +82,8 @@ nav.show>a:nth-child(5) {
   cursor: pointer;
   z-index: 10;
 }
+
+/*Shared css*/
 
 .centeredWrap{
   display: flex;
@@ -236,7 +238,8 @@ form>label>input{
 
 
 #toggleFilters,
-.applyFilters, button {
+.applyFilters, button, .profilebtn {
+  text-decoration: none;
   background-color:#ffbf2b;
   color: #111;
   border: none;
@@ -355,6 +358,11 @@ width: 100%;
   cursor: pointer;
 }
 
+.collectionFlipCard img {
+  transition: transform 0.8s ease;
+  transform-origin: center center;
+}
+
 .collectionFlipCardInner {
   position: relative;
   width: 100%;
@@ -372,7 +380,6 @@ width: 100%;
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
-  background-color: red;
   box-shadow: rgba(0,0,0,0.4) 0px 2px 2px,
               rgba(0,0,0,0.3) 0px 7px 13px -3px,
               rgba(0,0,0,0.2) 0px -1px 0px inset;
@@ -381,4 +388,81 @@ width: 100%;
 .collectionFlipCardFront>img{
   width: 100%;
   height: 100%;
+}
+
+.profileWrap{
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 32px 10%;
+  gap: 16px;
+}
+
+.profileName{
+  display: contents;
+}
+
+.card-info {
+  position: absolute;
+  top: 220%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+  font-family: "Poppins", sans-serif;
+  line-height: 1.5;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Apparition douce */
+.card-info.visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+/* Style du bouton dans le formulaire */
+.card-info form button {
+  
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+
+  font-weight: 600;
+  cursor: pointer;
+  
+}
+
+
+.card-info input[type="number"] {
+  background: #111;
+  border: none;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+  margin-right: 8px;
+  width: 60px;
+}
+
+/*Stats page*/
+
+.statGrid{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.statCard{
+  max-width: 45%;
+  height: 500px;
+  border: 1px solid #111;
+  color: #111;
+  border-radius:8px ;
+  padding: 8px;
 }

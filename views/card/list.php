@@ -18,7 +18,7 @@
         <option value="Blue" <?= (($_GET['color'] ?? '') === 'Blue') ? 'selected' : '' ?>>Bleu</option>
         <option value="Green" <?= (($_GET['color'] ?? '') === 'Green') ? 'selected' : '' ?>>Vert</option>
         <option value="Yellow" <?= (($_GET['color'] ?? '') === 'Yellow') ? 'selected' : '' ?>>Jaune</option>
-        <option value="Black" <?= (($_GET['color'] ?? '') === 'Black') ? 'selected' : '' ?>>Noir</option>
+        <option value="Black" <?= (($_GET['color'] ?? '') === 'Purple') ? 'selected' : '' ?>>Purple</option>
       </select>
         </div>
 
@@ -26,9 +26,9 @@
       <label>Extension :</label>
       <select name="extension">
         <option value="">Toutes</option>
-        <option value="OP01" <?= (($_GET['extension'] ?? '') === 'OP01') ? 'selected' : '' ?>>OP01</option>
-        <option value="OP02" <?= (($_GET['extension'] ?? '') === 'OP02') ? 'selected' : '' ?>>OP02</option>
-        <option value="OP03" <?= (($_GET['extension'] ?? '') === 'OP03') ? 'selected' : '' ?>>OP03</option>
+        <option value="Romance Dawn" <?= (($_GET['extension'] ?? '') === 'Romance Dawn') ? 'selected' : '' ?>>Romance Dawn (OP01)</option>
+        <option value="Paramount War" <?= (($_GET['extension'] ?? '') === 'Paramount War') ? 'selected' : '' ?>>Paramount War (OP02)</option>
+        
       </select>
         </div>
 

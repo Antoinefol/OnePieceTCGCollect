@@ -1,8 +1,10 @@
 <section class="centeredWrap column">
-<h2>Profil de <?= htmlspecialchars($user['username']) ?></h2>
-<a href="index.php?controller=card&action=stats">Statistiques</a>
-<a href="index.php?controller=deck&action=list">Mes Decks</a>
-
+    <div class="profileWrap">
+<h2 class="profileName">Profil de <?= htmlspecialchars($user['username']) ?></h2>
+<div>
+<a class="profilebtn" href="index.php?controller=card&action=stats">Statistiques</a>
+<a class="profilebtn" href="index.php?controller=deck&action=list">Mes Decks</a></div>
+</div>
 <h3>Ma collection de cartes</h3>
 
 <?php if (empty($cards)) : ?>
@@ -37,7 +39,7 @@
         <?php endforeach; ?>
     </div>
 
-    <h3>💰 Valeur totale de ma collection : <?= number_format($total, 2, ',', ' ') ?> €</h3>
+    <h3 class="totalValue">Valeur totale de ma collection : <?= number_format($total, 2, ',', ' ') ?> $</h3>
 <?php endif; ?>
 
 </section>
