@@ -573,8 +573,7 @@ width: 100%;
 }
 
 .deckInfo h3 {
-  margin: 0.2rem 0;
-  font-size: 1.1rem;
+  color: white;
 }
 
 .deckActions {
@@ -665,7 +664,7 @@ width: 100%;
 
 .deck-section h3 {
   margin-top: 1.5rem;
-  color: #555;
+
   border-bottom: 2px solid #eee;
   padding-bottom: 0.4rem;
 }
