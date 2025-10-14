@@ -137,7 +137,7 @@ document.querySelectorAll(".collectionFlipCard").forEach((card) => {
       `;
 
       clone.appendChild(info);
-      info.addEventListener("click", (e) => e.stopPropagation());
+      info.addEventListener("click", (e) => e.stopPropagation());   
       requestAnimationFrame(() => info.classList.add("visible"));
       activeInfo = info;
 
@@ -165,6 +165,28 @@ document.querySelectorAll(".collectionFlipCard").forEach((card) => {
         });
       });
     });
+  });
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const btnWrap = document.querySelector('.btnWrap');
+  const activeBtn = document.querySelector('.profilebtn.active');
+
+  if (btnWrap && activeBtn) {
+    // Position exacte du bouton dans le parent
+    const left = activeBtn.offsetLeft;
+    const width = activeBtn.offsetWidth;
+
+    // On injecte les valeurs dans les variables CSS
+    btnWrap.style.setProperty('--indicator-left', `${left}px`);
+    btnWrap.style.setProperty('--indicator-width', `${width}px`);
+  }
+});
+document.querySelectorAll('.leader-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.leader-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    document.getElementById('leader_id').value = card.dataset.leaderId;
   });
 });
 

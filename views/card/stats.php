@@ -1,13 +1,21 @@
 <div class="profileWrap">
 <h2>Statistiques </h2>
-<div>
-<a class="profilebtn" href="index.php?controller=user&action=profile">Profile</a>
-<a class="profilebtn" href="index.php?controller=deck&action=list">Mes Decks</a></div>
+<div class="btnWrap" data-active="<?= htmlspecialchars($_GET['action'] ?? '') ?>">
+    <a class="profilebtn <?= ($_GET['action'] ?? '') === 'profile' ? 'active' : '' ?>" 
+       href="index.php?controller=user&action=profile">Profile</a>
+
+    <a class="profilebtn <?= ($_GET['action'] ?? '') === 'stats' ? 'active' : '' ?>" 
+       href="index.php?controller=card&action=stats">Statistiques</a>
+
+    <a class="profilebtn <?= ($_GET['action'] ?? '') === 'list' ? 'active' : '' ?>" 
+       href="index.php?controller=deck&action=list">Decks</a>
+  </div>
 </div>
-<h3>Valeur totale : <?= number_format($totalValue, 2, ',', ' ') ?> €</h3>
+<h3 class="Valeur">Valeur totale : <?= number_format($totalValue, 2, ',', ' ') ?> €</h3>
 <div class="statGrid">
 <?php foreach ($extensions as $extension => $data): ?>
     <div class="statCard">
+        <div>
         <h4><?= htmlspecialchars($extension) ?></h4>
 
         <p>
@@ -19,20 +27,22 @@
         </p>
 
         <p>
-             Normal : <?= $data['normal'] ?> / <?= $data['normal_total'] ?><br>
-             Parallèle : <?= $data['parallel'] ?> / <?= $data['parallel_total'] ?>
+             Normal : <?= $data['normal'] ?> / <?= $data['normal_total'] ?>
         </p>
+        <p> Parallèle : <?= $data['parallel'] ?> / <?= $data['parallel_total'] ?></p>
 
         <h5>Détail par type :</h5>
-        <ul>
+        
             <?php foreach ($data['total_types'] as $type => $totalType): ?>
-                <li>
+                <p>
                     <?= htmlspecialchars($type) ?> :
                     <?= $data['types'][$type] ?? 0 ?> / <?= $totalType ?>
                     (<?= round(($data['types'][$type] ?? 0) / $totalType * 100, 1) ?> %)
-                </li>
+                </p>
             <?php endforeach; ?>
-        </ul>
+        
+    </div>
+        <img src="./images/assets/<?= htmlspecialchars($extension) ?>.png" alt="Card Box">
     </div>
 <?php endforeach; ?>
 </div>

@@ -59,18 +59,38 @@ class Deck
     }
 
     public static function getByUserWithCards($userId)
-    {
-        $db = Database::getInstance();
-        $stmt = $db->prepare("SELECT * FROM decks WHERE user_id = ?");
-        $stmt->execute([$userId]);
-        $decks = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+{
+    $db = Database::getInstance();
 
-        foreach ($decks as &$deck) {
-            $deck['card_count'] = self::countCards($deck['id']);
-        }
+    $sql = "
+        SELECT 
+            d.id,
+            d.user_id,
+            d.name,
+            d.leader_id,
+            COALESCE(dc.total_cards, 0) AS card_count,
+            c.name AS leader_name,
+            c.number AS leader_number,
+            c.version AS leader_version,
+            c.color AS leader_color
+        FROM decks d
+        LEFT JOIN (
+            SELECT deck_id, COALESCE(SUM(quantity),0) AS total_cards
+            FROM deck_cards
+            GROUP BY deck_id
+        ) dc ON dc.deck_id = d.id
+        LEFT JOIN cards c ON c.id = d.leader_id
+        WHERE d.user_id = ?
+        ORDER BY d.id DESC
+    ";
 
-        return $decks;
-    }
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$userId]);
+    $decks = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+    return $decks ?: [];
+}
+
 
     /**
      * Retourne la somme des quantities (nombre réel de cartes)

@@ -1,9 +1,16 @@
 <section class="centeredWrap column">
-    <div class="profileWrap">
+<div class="profileWrap">
 <h2 class="profileName">Profil de <?= htmlspecialchars($user['username']) ?></h2>
-<div>
-<a class="profilebtn" href="index.php?controller=card&action=stats">Statistiques</a>
-<a class="profilebtn" href="index.php?controller=deck&action=list">Mes Decks</a></div>
+<div class="btnWrap" data-active="<?= htmlspecialchars($_GET['action'] ?? '') ?>">
+    <a class="profilebtn <?= ($_GET['action'] ?? '') === 'profile' ? 'active' : '' ?>" 
+       href="index.php?controller=user&action=profile">Profile</a>
+
+    <a class="profilebtn <?= ($_GET['action'] ?? '') === 'stats' ? 'active' : '' ?>" 
+       href="index.php?controller=card&action=stats">Statistiques</a>
+
+    <a class="profilebtn <?= ($_GET['action'] ?? '') === 'list' ? 'active' : '' ?>" 
+       href="index.php?controller=deck&action=list">Decks</a>
+  </div>
 </div>
 <h3>Ma collection de cartes</h3>
 

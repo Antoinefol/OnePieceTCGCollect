@@ -238,9 +238,9 @@ form>label>input{
 
 
 #toggleFilters,
-.applyFilters, button, .profilebtn {
+.applyFilters, button, .btn {
   text-decoration: none;
-  background-color:#ffbf2b;
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
   color: #111;
   border: none;
   border-radius: 8px;
@@ -249,12 +249,6 @@ form>label>input{
   cursor: pointer;
   text-align: center;
   transition: all 0.3s ease;
-}
-
-#toggleFilters:hover,
-.applyFilters:hover {
-   background-color:#ffbf2b;
-  transform: translateY(-2px);
 }
 
 
@@ -390,14 +384,74 @@ width: 100%;
   height: 100%;
 }
 
-.profileWrap{
+.profileWrap {
   width: 90%;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  flex-direction: column;
   padding: 32px 10%;
   gap: 16px;
 }
+.profileWrap {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px 10%;
+  gap: 16px;
+}
+
+.profileWrap {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px 10%;
+  gap: 16px;
+}
+
+.btnWrap {
+  position: relative;
+  display: flex;
+  background-color: #d1d1d1;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Indicateur de fond blanc */
+.btnWrap::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--indicator-left, 0);
+  width: var(--indicator-width, 0);
+  height: 100%;
+  background-color: white;
+  border-radius: 8px;
+  z-index: 0;
+  transition: left 0.4s ease, width 0.4s ease;
+}
+
+.profilebtn {
+  position: relative;
+  flex-shrink: 0;
+  text-align: center;
+  text-decoration: none;
+  color: #111;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+.profilebtn.active {
+  color: #000;
+}
+.profilebtn:not(.active) {
+  color: #555;
+}
+
 
 .profileName{
   display: contents;
@@ -454,15 +508,442 @@ width: 100%;
 
 .statGrid{
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  padding: 16px;
+  gap: 16px;
 }
 
 .statCard{
-  max-width: 45%;
-  height: 500px;
-  border: 1px solid #111;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+  align-items: center;
+  background-color: white;
+ line-height: 24px;
   color: #111;
   border-radius:8px ;
-  padding: 8px;
+  padding: 16px;
+
 }
+
+
+.statCard>img{
+  align-self: flex-start;
+ 
+  height: 250px;
+}
+
+.Valeur{
+  padding: 32px 10%;
+}
+
+/*Deck list*/
+
+.deckGrid {
+  display: flex;
+  justify-content: center;
+  align-items: center ;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.deckCard {
+  background: var(--leader-gradient, #222);
+  border-radius: 32px 32px 16px 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+  position: relative;
+}
+
+
+.deckHeader img {
+  width: 100%;
+  height: auto;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+}
+
+.deckInfo {
+  padding: 0.8rem;
+}
+
+.deckInfo h3 {
+  margin: 0.2rem 0;
+  font-size: 1.1rem;
+}
+
+.deckActions {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 0.5rem 0 1rem;
+}
+
+.deckActions a,
+.deckActions button {
+  background: rgba(255,255,255,0.15);
+  text-decoration: none;
+  border: none;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+
+
+/* Leader sans image */
+.noLeader {
+  background: rgba(0,0,0,0.4);
+  padding: 2rem;
+  font-weight: 500;
+}
+
+/* Couleurs dynamiques */
+.deckCard[data-color="Red"] {
+  --leader-gradient: #db242d;
+}
+.deckCard[data-color="Blue"] {
+  --leader-gradient: #018bc2;
+}
+.deckCard[data-color="Green"] {
+  --leader-gradient: #238d6c;
+}
+.deckCard[data-color="Yellow"] {
+  --leader-gradient: #ffcc33;
+}
+.deckCard[data-color="Black"] {
+  --leader-gradient: #000;
+}
+
+/* Leaders à deux couleurs */
+.deckCard[data-color="Red/Green"] {
+  --leader-gradient: linear-gradient(90deg,#db242d 0%, #db242d 40%, #238d6c 60%, #238d6c 100%);
+}
+.deckCard[data-color="Blue/Purple"] {
+  --leader-gradient: linear-gradient(90deg,#018bc2 0%, #018bc2 40%, #6f386a 60%, #6f386a 100%);
+  
+}
+
+.deckCreate {
+  text-decoration: none;
+  background-color:#ffbf2b;
+  color: #111;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+/*modifier le deck*/
+/* Conteneur principal du deck */
+.deck-section {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 900px;
+  margin: 2rem auto;
+  color: #222;
+  
+}
+
+/* 🏷️ Titres */
+.deck-section h2 {
+  font-size: 1.7rem;
+  color: #222;
+  text-align: center;
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+}
+
+.deck-section h3 {
+  margin-top: 1.5rem;
+  color: #555;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.4rem;
+}
+
+/* Leader du deck */
+.deck-leader {
+  background: linear-gradient(145deg, #fafafa, #ffffff);
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 2rem 0 1rem 0;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.deck-leader strong {
+  font-weight: 600;
+}
+
+.deck-leader span {
+  color: #777;
+}
+
+/* Message de confirmation */
+.deck-flash {
+  text-align: center;
+  color: #2b8a3e;
+  background: #dfffe0;
+  border: 1px solid #a7f0b2;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* Liste des cartes */
+.deck-card-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+/* Carte individuelle */
+.deck-card-list li {
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+/* Texte */
+.deck-card-list li strong {
+  color: #222;
+  font-size: 1.5rem;
+}
+
+.deck-card-list li span {
+  color: #555;
+}
+
+.deck-card-list li small {
+  color: #777;
+}
+
+/* Formulaire pour retirer une carte */
+.deck-card-list li form {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.deck-card-list li input[type="number"] {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  color: #222;
+  padding: 6px;
+  border-radius: 6px;
+  width: 60px;
+  text-align: center;
+}
+
+/* Boutons */
+.deck-card-list li button {
+  background: linear-gradient(135deg, #ff6b6b, #e63946);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  
+}
+
+
+/* Valeur totale du deck */
+.deck-value {
+  text-align: right;
+  margin-top: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+
+
+ul.card-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  padding: 0;
+  margin: 1.5rem 0;
+  list-style: none;
+}
+
+/*  Carte */
+ul.card-list li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #e1e1e1;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  padding: 1rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+
+
+/*Image de carte */
+ul.card-list li img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  transition: transform 0.2s ease;
+}
+
+
+
+/* Texte du nom de la carte */
+ul.card-list li strong,
+ul.card-list li span {
+  
+  font-size: 1.5rem;
+  color: #111;
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+
+/* Formulaire d’ajout */
+ul.card-list li form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.6rem;
+}
+
+ul.card-list li label {
+  font-size: 1.2rem;
+  color: #111;
+}
+
+ul.card-list li input[type="number"] {
+  
+  border: 1px solid #333;
+
+  padding: 5px 8px;
+  border-radius: 6px;
+  width: 60px;
+  text-align: center;
+}
+
+/* Bouton “Ajouter” */
+ul.card-list li button {
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+  color: #111;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-deck-section {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  max-width: 900px;
+  margin: 3rem auto;
+}
+
+.create-deck-section h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+/* Champs */
+.create-deck-section input[type="text"] {
+  width: 90%;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+  font-size: 1.4rem;
+  transition: 0.2s;
+}
+
+.create-deck-section input[type="text"]:focus {
+  border-color: #ffbf2b;
+  background: #fff;
+  outline: none;
+}
+
+/* ---------- LEADERS GRID ---------- */
+.leader-select-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.leader-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+  border-radius: 10px;
+  text-align: center;
+  padding: 0.8rem;
+  cursor: pointer;
+  width: 25vw;
+  border: 2px solid transparent;
+}
+
+.leader-card img {
+  height: auto;
+  width: 200px;
+  border-radius: 8px;
+  
+}
+
+.leader-card p {
+  margin-top: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+}
+
+
+/* Leader sélectionné */
+.leader-card.selected {
+  border-color: #ffbf2b;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* ---------- BOUTON ---------- */
+
+
+
+
